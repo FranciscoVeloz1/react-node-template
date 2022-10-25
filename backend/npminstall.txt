@@ -1,0 +1,2 @@
+npm install bcryptjs cors dotenv express morgan mysql2 zod jsonwebtoken --save
+npm install @types/bcryptjs @types/cors @types/express @types/morgan @types/node typescript ts-node-dev -D
