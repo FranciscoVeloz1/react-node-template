@@ -1,0 +1,103 @@
+@import "./vars.css";
+@import "./text.css";
+@import "./buttons.css";
+
+.white-theme-variables {
+  --primary: "";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: var(--xl);
+  font-family: "Open Sans", sans-serif;
+  line-height: 28px;
+}
+
+a {
+  color: var(--extra-light);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--light);
+}
+
+ul {
+  list-style: none;
+}
+
+/* Animations */
+.ani-growIn {
+  animation: growIn 0.5s;
+}
+
+.ani-fadeIn {
+  animation: fadeIn 0.5s;
+}
+
+.ani-growInOut {
+  animation: growInOut 0.3s;
+}
+
+/* Key frames */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    margin-top: -10px;
+    opacity: 0;
+  }
+  to {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeRight {
+  from {
+    margin-right: -20px;
+    opacity: 0;
+  }
+  to {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes growIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes growInOut {
+  0% {
+    transform: scale(0.7);
+  }
+  45% {
+    transform: scale(1.05);
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

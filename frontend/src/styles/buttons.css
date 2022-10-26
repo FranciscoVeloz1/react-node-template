@@ -1,0 +1,33 @@
+@import "./vars.css";
+
+/* Button primary */
+.button-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: var(--dark-primary);
+  color: white;
+}
+
+/* Button info */
+.button-info {
+  background-color: var(--info);
+  color: white;
+}
+
+.button-info:hover {
+  background-color: var(--dark-info);
+  color: white;
+}
+
+/* Button outline dark */
+.button-outline-dark {
+  border-color: black;
+  color: black;
+}
+
+.button-outline-dark:hover {
+  background-color: var(--light-secondary);
+}

@@ -1,0 +1,62 @@
+@import "./vars.css";
+
+.txt-xs {
+  font-size: var(--xs);
+}
+
+.txt-sm {
+  font-size: var(--sm);
+}
+
+.txt-md {
+  font-size: var(--md);
+}
+
+.txt-lg {
+  font-size: var(--lg);
+}
+
+.txt-xl {
+  font-size: var(--xl);
+}
+
+.txt-xl2 {
+  font-size: var(--xl2);
+}
+
+.txt-xl3 {
+  font-size: var(--xl3);
+}
+
+.txt-xl4 {
+  font-size: var(--xl4);
+}
+
+.txt-primary {
+  color: var(--primary);
+}
+
+.txt-primary:hover {
+  color: var(--primary);
+}
+
+.txt-primary-light {
+  color: var(--info);
+}
+
+.txt-primary-light:hover {
+  color: var(--info);
+}
+
+.txt-secondary {
+  color: var(--secondary);
+}
+
+.txt-bold {
+  font-weight: 700;
+}
+
+.title {
+  font-size: var(--xl);
+  font-weight: 700;
+}
