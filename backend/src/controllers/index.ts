@@ -1,1 +1,3 @@
-console.log("index");
+import * as authControllers from "./auth.controllers";
+
+export { authControllers };

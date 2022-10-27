@@ -1,0 +1,14 @@
+@import "../vars.css";
+
+.sidebar {
+  background-color: gray;
+  width: 260px;
+  min-height: 100vh;
+  position: absolute;
+  transform: translateX(-270px);
+  transition: all 350ms ease;
+}
+
+.sidebar.active {
+  transform: translateX(0px);
+}

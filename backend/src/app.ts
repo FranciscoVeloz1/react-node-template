@@ -3,6 +3,10 @@ import morgan from "morgan";
 import path from "path";
 import cors from "cors";
 
+//Importing routes
+import { authRoutes } from "./routes";
+
+//Initializations
 const app: Application = express();
 
 //Settings
@@ -18,6 +22,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //Routes
+app.use("/api", authRoutes)
+
 app.get("/*", function (_req: Request, res: Response) {
   res.sendFile(path.join(__dirname, "public/index.html"), function (err) {
     if (err) {

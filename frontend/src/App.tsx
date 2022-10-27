@@ -1,8 +1,18 @@
+import { useState } from "react";
+import Sidebar from "@components/Sidebar";
+
 const App = () => {
+  const [show, setShow] = useState(false);
+
   return (
-    <div>
-      <p>Hello world</p>
-    </div>
+    <>
+      <Sidebar show={show} setShow={setShow} />
+
+      <div>
+        <p>Hello world</p>
+        <button onClick={() => setShow(!show)}>=</button>
+      </div>
+    </>
   );
 };
 

@@ -1,1 +1,3 @@
-console.log("schemas");
+import * as authSchemas from "./auth.schemas";
+
+export { authSchemas };

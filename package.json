@@ -21,5 +21,8 @@
     "mysql"
   ],
   "author": "FranciscoVeloz",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.9"
+  }
 }
