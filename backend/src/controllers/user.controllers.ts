@@ -2,19 +2,29 @@ import { pool } from '../lib'
 import { Request, Response } from 'express'
 import { IUser } from '../interfaces/IUser'
 import { OkPacket, RowDataPacket } from 'mysql2'
-import { CreateProductType } from '../schemas/user.schemas'
+import * as t from '../schemas/user.schemas'
 
 interface IUserData extends RowDataPacket, IUser {}
 
+//List
 export const list = async (_req: Request, res: Response) => {
   try {
-    const [result] = await pool.query<IUserData[]>('select * from users')
-    if (result.length === 0) throw new Error('Users not found')
+    const [users] = await pool.query<IUserData[]>('select * from users where fk_company = ?', [1])
+    if (users.length === 0) throw new Error('Users not found')
 
-    const users = result.map((r) => {
-      const { constructor, ...user } = r
-      return user
-    })
+    return res.status(200).json({ status: true, data: users })
+  } catch (error) {
+    if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
+    return res.status(400).json({ status: false, message: 'Unknow error' })
+  }
+}
+
+//Get
+export const get = async (req: Request<t.GetUserType, any, any>, res: Response) => {
+  try {
+    const { id_user } = req.params
+    const [users] = await pool.query<IUserData[]>('select * from users where id_user = ?', [id_user])
+    if (users.length === 0) throw new Error('User not found')
 
     return res.status(200).json({ status: true, data: users[0] })
   } catch (error) {
@@ -23,10 +33,35 @@ export const list = async (_req: Request, res: Response) => {
   }
 }
 
-export const create = async (req: Request<any, any, CreateProductType>, res: Response) => {
+//Create
+export const create = async (req: Request<any, any, t.CreateUserType>, res: Response) => {
   try {
     const result = await pool.query<OkPacket>('insert into users set ?', [req.body])
     return res.status(200).json({ status: true, data: result[0].insertId })
+  } catch (error) {
+    if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
+    return res.status(400).json({ status: false, message: 'Unknow error' })
+  }
+}
+
+//Update
+export const update = async (req: Request<t.GetUserType, any, t.UpdateUserType>, res: Response) => {
+  try {
+    const { id_user } = req.params
+    await pool.query('update users set ? where id_user', [req.body, id_user])
+    return res.status(200).json({ status: true })
+  } catch (error) {
+    if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
+    return res.status(400).json({ status: false, message: 'Unknow error' })
+  }
+}
+
+//Delete
+export const deleteData = async (req: Request<t.GetUserType>, res: Response) => {
+  try {
+    const { id_user } = req.params
+    await pool.query('delete from users where id_user = ?', [id_user])
+    return res.status(200).json({ status: true })
   } catch (error) {
     if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
     return res.status(400).json({ status: false, message: 'Unknow error' })

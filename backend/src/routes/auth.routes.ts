@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { authControllers } from '../controllers'
+import { signIn } from '../controllers/auth.controllers'
 import { validator } from '../middlewares/validator.middleware'
-import { signInSchema } from '../schemas/auth.schemas'
+import { SignInSchema } from '../schemas/auth.schemas'
 
 const router = Router()
 
@@ -10,6 +10,6 @@ router.use((_req, res, next) => {
   next()
 })
 
-router.post('/auth/signin', validator(signInSchema), authControllers.signIn)
+router.post('/auth/signin', validator(SignInSchema), signIn)
 
 export default router

@@ -3,14 +3,14 @@ import { SECRET } from '../config'
 import { pool, util } from '../lib'
 import { RowDataPacket } from 'mysql2'
 import { Request, Response } from 'express'
+import { SignInType } from '../schemas/auth.schemas'
 
 //Interfaces
 import { IUser } from '../interfaces/IUser'
 
-interface IUserData extends RowDataPacket, IUser {
-}
+interface IUserData extends RowDataPacket, IUser {}
 
-export const signIn = async (req: Request, res: Response) => {
+export const signIn = async (req: Request<any, any, SignInType>, res: Response) => {
   try {
     const { email, password } = req.body
 
