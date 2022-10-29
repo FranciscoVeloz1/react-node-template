@@ -5,11 +5,6 @@ import * as s from '../schemas/user.schemas'
 
 const router = Router()
 
-router.use((_req, res, next) => {
-  res.header('Access-Control-Allow-Headers', 'x-access-token, Origin, Content-Type, Accept')
-  next()
-})
-
 router.get('/users', controller.list)
 router.post('/users', validator(s.CreateUserSchema), controller.create)
 

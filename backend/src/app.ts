@@ -4,7 +4,7 @@ import path from 'path'
 import cors from 'cors'
 
 //Importing routes
-import { authRoutes, userRoutes } from './routes'
+import * as routes from './routes'
 
 //Initializations
 const app: Application = express()
@@ -22,8 +22,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 //Routes
-app.use('/api', authRoutes)
-app.use('/api', userRoutes)
+app.use('/api', routes.authRoutes)
+app.use('/api', routes.userRoutes)
+app.use('/api', routes.companyRoutes)
 
 app.get('/*', function (_req: Request, res: Response) {
   res.sendFile(path.join(__dirname, 'public/index.html'), function (err) {

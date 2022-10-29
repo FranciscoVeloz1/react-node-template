@@ -13,7 +13,7 @@ export const CreateUserSchema = z.object({
 
 export const GetUserSchema = z.object({
   params: z.object({
-    id_user: z.number().min(1, 'ID is required').nonnegative()
+    id_user: z.string().min(1, 'ID is required')
   })
 })
 
