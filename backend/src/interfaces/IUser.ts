@@ -1,10 +1,9 @@
-import { RowDataPacket } from "mysql2";
-
-export interface IUser extends RowDataPacket {
-  id: number;
+export interface IUser {
+  id_user: number;
   user: string;
   email: string;
   fullname: string;
   password: string;
   fk_role: number;
+  fk_company: number;
 }
