@@ -1,11 +1,18 @@
 import bcrypt from 'bcryptjs'
+import { IResponse } from '../interfaces/IResponse'
 
-export const encryptPassword = async (password: string) => {
+interface IEncrypt extends IResponse {
+  data?: string
+}
+
+export const encryptPassword = async (password: string): Promise<IEncrypt> => {
   try {
     const salt = await bcrypt.genSalt(10)
-    return await bcrypt.hash(password, salt)
+    const data = await bcrypt.hash(password, salt)
+    return { status: true, data }
   } catch (error) {
-    return false
+    if (error instanceof Error) return { status: false, message: error.message }
+    return { status: false, message: 'Unknow error' }
   }
 }
 

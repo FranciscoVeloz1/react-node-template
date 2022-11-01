@@ -1,4 +1,4 @@
 export interface IResponse {
   status: boolean;
-  message: string;
+  message?: string;
 }

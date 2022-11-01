@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import * as controller from '../controllers/user.controllers'
-import { validator } from '../middlewares/validator.middleware'
+import { validator, isAdminIn } from '../middlewares'
 import * as s from '../schemas/user.schemas'
+import * as controller from '../controllers/user.controllers'
 
 const router = Router()
 
-router.get('/users', controller.list)
+router.get('/users', isAdminIn, controller.list)
 router.post('/users', validator(s.CreateUserSchema), controller.create)
 
 //@ts-ignore

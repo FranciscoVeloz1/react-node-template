@@ -42,10 +42,11 @@ export const get = async (req: Request<t.GetUserType, any, any>, res: Response) 
 //Create
 export const create = async (req: Request<any, any, t.CreateUserType>, res: Response) => {
   try {
-    const password = await util.encryptPassword(req.body.password)
-    const newUser = { ...req.body, password }
+    const encrypt = await util.encryptPassword(req.body.password)
+    if (!encrypt.status) throw new Error(encrypt.message)
+    req.body.password = encrypt.data!
 
-    const result = await pool.query<OkPacket>('insert into users set ?', [newUser])
+    const result = await pool.query<OkPacket>('insert into users set ?', [req.body])
     return res.status(200).json({ status: true, data: result[0].insertId })
   } catch (error) {
     if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
@@ -57,7 +58,14 @@ export const create = async (req: Request<any, any, t.CreateUserType>, res: Resp
 export const update = async (req: Request<t.GetUserType, any, t.UpdateUserType>, res: Response) => {
   try {
     const { id_user } = req.params
-    console.log(id_user)
+
+    if (req.body.password) {
+      const encrypt = await util.encryptPassword(req.body.password)
+      if (!encrypt.status) throw new Error(encrypt.message)
+      req.body.password = encrypt.data
+    }
+
+    console.log(req.body)
     await pool.query('update users set ? where id_user = ?', [req.body, id_user])
     return res.status(200).json({ status: true })
   } catch (error) {
