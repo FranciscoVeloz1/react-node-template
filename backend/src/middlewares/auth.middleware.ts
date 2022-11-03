@@ -9,32 +9,29 @@ interface IUserData extends RowDataPacket, IUser {}
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers['x-access-token']
-    if (!token) throw new Error('Not token provided')
+    const token = req.headers['x-access-token'] as string
+    if (!token) throw new Error('Access denied')
 
-    const decoded = jwt.verify(token as string, SECRET)
-    //@ts-ignore
-    req.userId = decoded.id
+    const decoded = jwt.verify(token, SECRET) as IUser
+    req.userId = decoded.id_user
 
-    //@ts-ignore
     const [user] = await pool.query<IUserData[]>('select * from users where id_user = ?', [req.userId])
     if (user.length === 0) throw new Error('User not found')
 
     next()
   } catch (error) {
-    if (error instanceof Error) res.status(403).json({ status: false, message: 'Session has expired' })
+    if (error instanceof Error) res.status(401).json({ status: false, message: error.message })
   }
 }
 
 export const isAdminIn = async function (req: Request, res: Response, next: NextFunction) {
   try {
-    //@ts-ignore
     const [user] = await pool.query<IUserData[]>('select * from users where id_user = ?', [req.userId])
     if (user.length === 0) throw new Error('User not found')
     if (user[0].fk_role !== 2) throw new Error('Unauthorized')
 
     next()
   } catch (error) {
-    if (error instanceof Error) res.status(403).json({ status: false, message: error.message })
+    if (error instanceof Error) res.status(401).json({ status: false, message: error.message })
   }
 }

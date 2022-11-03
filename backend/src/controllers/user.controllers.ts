@@ -10,9 +10,8 @@ interface IUserData extends RowDataPacket, IUser {}
 //List
 export const list = async (_req: Request, res: Response) => {
   try {
-    const [users] = await pool.query<IUserData[]>(
-      'select id_user, user, email, fullname, fk_role, fk_company from users'
-    )
+    const query = 'select id_user, user, email, fullname, fk_role, fk_company from users'
+    const [users] = await pool.query<IUserData[]>(query)
     if (users.length === 0) throw new Error('Users not found')
 
     return res.status(200).json({ status: true, data: users })
@@ -26,10 +25,8 @@ export const list = async (_req: Request, res: Response) => {
 export const get = async (req: Request<t.GetUserType, any, any>, res: Response) => {
   try {
     const { id_user } = req.params
-    const [users] = await pool.query<IUserData[]>(
-      'select id_user, user, email, fullname, fk_role, fk_company from users where id_user = ?',
-      [id_user]
-    )
+    const query = 'select id_user, user, email, fullname, fk_role, fk_company from users where id_user = ?'
+    const [users] = await pool.query<IUserData[]>(query, [id_user])
     if (users.length === 0) throw new Error('User not found')
 
     return res.status(200).json({ status: true, data: users[0] })
