@@ -1,0 +1,32 @@
+@import '../vars.css';
+
+.main_container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main_content {
+  position: relative;
+  min-width: 0;
+  flex-grow: 1;
+  min-height: calc(100vh - 56px);
+  margin-left: -250px;
+  padding: 24px;
+}
+
+.main_content.active {
+  margin-left: -250px;
+}
+
+@media (min-width: 992px) {
+  .main_content {
+    margin-left: 0;
+    transition: margin 0.15s ease-in-out;
+  }
+}
+
+@media (max-width: 640px) {
+  .main_content {
+    padding: 12px;
+  }
+}

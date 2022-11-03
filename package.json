@@ -24,5 +24,16 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.9"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "bootstrap": "^5.2.2",
+    "react-bootstrap": "^2.5.0",
+    "react-hot-toast": "^2.4.0",
+    "react-router-dom": "^6.4.3",
+    "react-toastify": "^9.1.1",
+    "sweetalert2": "^11.6.5"
   }
 }
