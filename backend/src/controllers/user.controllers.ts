@@ -10,17 +10,46 @@ interface IUserData extends RowDataPacket, IUserView {}
 const QUERY = 'select * from users, company, roles where fk_role = id_role && fk_company = id_company'
 
 //List
-export const list = async (_req: Request, res: Response) => {
+export const list = async (req: Request<any, any, any, t.GetQueryUserType>, res: Response) => {
   try {
     const [result] = await pool.query<IUserData[]>(QUERY)
     if (result.length === 0) throw new Error('Users not found')
 
-    const users = result.map((r) => {
+    const resPerPage = 10
+
+    //Pagination
+    const numOfResults = result.length
+    const numOfPages = Math.ceil(numOfResults / resPerPage)
+    let page: number = parseInt(req.query.page)
+
+    if (page > numOfPages) res.json({ status: true, data: result, pagination: { numOfPages } })
+    else if (page < 1) res.json({ status: true, data: result, pagination: { numOfPages: 1 } })
+
+    const startingLimit = (page - 1) * resPerPage
+
+    const [result2] = await pool.query<IUserData[]>(`${QUERY} LIMIT ${startingLimit},${resPerPage}`)
+
+    let iterator = page - 10 < 1 ? 1 : page - 10
+    let endingLink = iterator + 9 <= numOfPages ? iterator + 9 : page + (numOfPages - page)
+
+    if (endingLink < page + 9) iterator -= page + 9 - numOfPages
+
+    const users = result2.map((r) => {
       const { password, ...user } = r
       return user
     })
 
-    return res.status(200).json({ status: true, data: users })
+    //Response
+    return res.status(200).json({
+      status: true,
+      data: users,
+      pagination: {
+        page,
+        iterator,
+        endingLink,
+        numOfPages
+      }
+    })
   } catch (error) {
     if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
     return res.status(400).json({ status: false, message: 'Unknow error' })
@@ -28,7 +57,7 @@ export const list = async (_req: Request, res: Response) => {
 }
 
 //Get
-export const get = async (req: Request<t.GetUserType, any, any>, res: Response) => {
+export const get = async (req: Request<t.GetUserType, any, any, t.GetQueryUserType>, res: Response) => {
   try {
     const { id_user } = req.params
     const query = `${QUERY} && id_user = ?`

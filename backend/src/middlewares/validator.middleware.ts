@@ -5,7 +5,8 @@ export const validator = (schema: AnyZodObject) => (req: Request, res: Response,
   try {
     schema.parse({
       body: req.body,
-      params: req.params
+      params: req.params,
+      query: req.query
     })
     return next()
   } catch (error) {

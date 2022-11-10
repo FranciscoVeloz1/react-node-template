@@ -14,6 +14,9 @@ export const CreateUserSchema = z.object({
 export const GetUserSchema = z.object({
   params: z.object({
     id_user: z.string().min(1, 'ID is required')
+  }),
+  query: z.object({
+    page: z.string().min(1, 'Page is required')
   })
 })
 
@@ -30,4 +33,5 @@ export const UpdateUserSchema = z.object({
 
 export type CreateUserType = z.infer<typeof CreateUserSchema>['body']
 export type GetUserType = z.infer<typeof GetUserSchema>['params']
+export type GetQueryUserType = z.infer<typeof GetUserSchema>['query']
 export type UpdateUserType = z.infer<typeof UpdateUserSchema>['body']
