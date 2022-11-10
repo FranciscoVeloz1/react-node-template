@@ -1,18 +1,24 @@
 import { pool } from '../lib'
 import { util } from '../lib'
 import { Request, Response } from 'express'
-import { IUser } from '../interfaces/IUser'
+import { IUserView } from '../interfaces/IUser'
 import { OkPacket, RowDataPacket } from 'mysql2'
 import * as t from '../schemas/user.schemas'
 
-interface IUserData extends RowDataPacket, IUser {}
+interface IUserData extends RowDataPacket, IUserView {}
+
+const QUERY = 'select * from users, company, roles where fk_role = id_role && fk_company = id_company'
 
 //List
 export const list = async (_req: Request, res: Response) => {
   try {
-    const query = 'select id_user, user, email, fullname, fk_role, fk_company from users'
-    const [users] = await pool.query<IUserData[]>(query)
-    if (users.length === 0) throw new Error('Users not found')
+    const [result] = await pool.query<IUserData[]>(QUERY)
+    if (result.length === 0) throw new Error('Users not found')
+
+    const users = result.map((r) => {
+      const { password, ...user } = r
+      return user
+    })
 
     return res.status(200).json({ status: true, data: users })
   } catch (error) {
@@ -25,11 +31,13 @@ export const list = async (_req: Request, res: Response) => {
 export const get = async (req: Request<t.GetUserType, any, any>, res: Response) => {
   try {
     const { id_user } = req.params
-    const query = 'select id_user, user, email, fullname, fk_role, fk_company from users where id_user = ?'
-    const [users] = await pool.query<IUserData[]>(query, [id_user])
-    if (users.length === 0) throw new Error('User not found')
+    const query = `${QUERY} && id_user = ?`
+    const [result] = await pool.query<IUserData[]>(query, [id_user])
+    if (result.length === 0) throw new Error('User not found')
 
-    return res.status(200).json({ status: true, data: users[0] })
+    const { password, ...user } = result[0]
+
+    return res.status(200).json({ status: true, data: user })
   } catch (error) {
     if (error instanceof Error) return res.status(400).json({ status: false, message: error.message })
     return res.status(400).json({ status: false, message: 'Unknow error' })

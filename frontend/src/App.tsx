@@ -1,8 +1,10 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 //Importing pages and containers
-import NotFound from './pages/NotFound'
-import Layout from './containers/Layout'
+const Loading = lazy(() => import('@common/Loading'))
+const NotFound = lazy(() => import('@pages/NotFound'))
+const Layout = lazy(() => import('@containers/Layout'))
 
 //Importing routes
 import routes from './routes'
@@ -18,16 +20,20 @@ import './styles/styles.css'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          {routes.map((r) => (
-            <Route path={r.path} element={r.element} key={r.path} />
-          ))}
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <Suspense fallback={<Loading />}>
+      <BrowserRouter>
+        <Layout>
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              {routes.map((r) => (
+                <Route path={r.path} element={r.element} key={r.path} />
+              ))}
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </Layout>
+      </BrowserRouter>
+    </Suspense>
   )
 }
 

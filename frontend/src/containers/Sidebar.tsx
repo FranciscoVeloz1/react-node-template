@@ -14,7 +14,7 @@ const Sidebar = ({ toggle, setToggle }: Props) => {
   return (
     <div className={toggle ? `Sidebar active` : 'Sidebar'}>
       <div className='sidebar_header'>
-        <Link to='/admin'>
+        <Link to='/'>
           <FontAwesomeIcon icon={faHome} className='me-2 icon txt-primary' />
           Dashboard
         </Link>
@@ -29,7 +29,7 @@ const Sidebar = ({ toggle, setToggle }: Props) => {
         <ul>
           <p className='sidebar_subtitle'>Menu</p>
           <li>
-            <Link to='/admin/template'>
+            <Link to='/template'>
               <FontAwesomeIcon icon={faFileAlt} className='me-2 sidebar_icon' />
               Template
             </Link>
@@ -38,7 +38,7 @@ const Sidebar = ({ toggle, setToggle }: Props) => {
           {/* User section */}
           <p className='sidebar_subtitle'>Users</p>
           <li>
-            <Link to='/admin/users'>
+            <Link to='/users'>
               <FontAwesomeIcon icon={faUserGroup} className='me-2 sidebar_icon' />
               Users
             </Link>

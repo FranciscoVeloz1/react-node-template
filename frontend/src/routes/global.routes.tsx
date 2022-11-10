@@ -1,5 +1,6 @@
-import Home from '@pages/Home'
+import { lazy } from "react";
 import { IRoute } from '@interfaces/IRoute'
+const Home = lazy(() => import("@pages/Home"));
 
 const GlobalRoutes: IRoute[] = [
   {
