@@ -1,9 +1,4 @@
 const Home = () => {
-  // const image =
-  //   'https://elviajerofeliz.com/wp-content/uploads/2020/05/Por-qu%C3%A9-Tokio-es-una-de-las-ciudades-m%C3%A1s-sorprendentes.jpg'
-
-  const image = undefined
-
   return (
     <div className='container-fluid my-3'>
       <div className='row'>
